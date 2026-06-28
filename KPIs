@@ -1,0 +1,65 @@
+-- Revenue -- 
+SELECT SUM(op.payment_value) 
+FROM olist_order_payments_dataset op 
+JOIN olist_orders_dataset o 
+ON op.order_id = o.order_id 
+WHERE o.order_status NOT IN ('canceled', 'unavailable');
+
+-- AOV --
+WITH order_value AS (
+SELECT DISTINCT op.order_id , SUM(op.payment_value) payment_value 
+FROM olist_order_payments_dataset op 
+JOIN olist_orders_dataset o ON op.order_id = o.order_id 
+WHERE o.order_status NOT IN ('canceled' , 'unavailable')
+GROUP BY 1)
+SELECT AVG(payment_value) FROM order_value;
+
+-- Delivery % -- 
+SELECT 
+    ROUND(CAST(SUM(CASE WHEN order_status = 'delivered' THEN 1 ELSE 0 END) AS FLOAT) / 
+    COUNT(order_id) * 100,2) AS delivered_percentage
+FROM (
+    SELECT DISTINCT order_id, order_status 
+    FROM olist_orders_dataset
+) AS distinct_orders;
+
+-- Customr Base that placed at least 1 non-canelled order --
+WITH customers AS (
+SELECT o.*, c.customer_unique_id FROM olist_orders_dataset o 
+LEFT JOIN olist_customers_dataset c 
+ON o.customer_id = c.customer_id
+WHERE o.order_status NOT IN ('canceled', 'unavailable')
+)
+SELECT COUNT(DISTINCT customer_unique_id) FROM customers;
+
+-- Monthly Performance -- 
+WITH payments AS(
+SELECT op.order_id , SUM(op.payment_value) payment_value
+FROM olist_order_payments_dataset op
+JOIN olist_orders_dataset o ON o.order_id = op.order_id
+WHERE o.order_status NOT IN ('canceled', 'unavailable')
+GROUP BY 1
+),
+ranked_reviews AS (
+SELECT order_id , review_score, row_number () OVER ( PARTITION BY order_id ORDER BY review_answer_timestamp DESC) AS rn
+FROM olist_order_reviews_dataset 
+),
+latest_reviews AS (
+SELECT order_id, review_score
+FROM ranked_reviews
+WHERE rn = 1
+)
+SELECT DATE(o.order_purchase_timestamp,'start of month'), 
+COUNT(DISTINCT o.order_id) orders, 
+SUM(p.payment_value) GMV ,
+COUNT(DISTINCT oc.customer_unique_id) customers,
+ROUND(SUM(p.payment_value) / COUNT(DISTINCT o.order_id),2) AOV, 
+ROUND(AVG(r.review_score),0) average_scores, 
+CAST(AVG(CASE WHEN o.order_delivered_customer_date IS NOT NULL THEN julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp) ELSE NULL END) AS INT) AS avg_delivery_days
+
+FROM olist_orders_dataset o 
+JOIN payments p ON o.order_id = p.order_id 
+JOIN olist_customers_dataset oc ON o.customer_id = oc.customer_id
+LEFT JOIN latest_reviews r ON o.order_id = r.order_id
+WHERE o.order_status NOT IN ('canceled' , 'unavailable')
+GROUP BY 1;
