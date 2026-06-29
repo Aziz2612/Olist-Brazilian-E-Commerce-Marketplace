@@ -54,7 +54,7 @@ COUNT(DISTINCT o.order_id) orders,
 SUM(p.payment_value) GMV ,
 COUNT(DISTINCT oc.customer_unique_id) customers,
 ROUND(SUM(p.payment_value) / COUNT(DISTINCT o.order_id),2) AOV, 
-ROUND(AVG(r.review_score),0) average_scores, 
+ROUND(AVG(r.review_score),2) average_scores, 
 CAST(AVG(CASE WHEN o.order_delivered_customer_date IS NOT NULL THEN julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_timestamp) ELSE NULL END) AS INT) AS avg_delivery_days
 
 FROM olist_orders_dataset o 
