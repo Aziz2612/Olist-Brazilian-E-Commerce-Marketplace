@@ -72,7 +72,7 @@ THEN julianday(o.order_delivered_customer_date) - julianday(o.order_purchase_tim
 ELSE NULL END AS INT) AS delivery_days
 
 FROM olist_orders_dataset o
-WHERE order_status NOT IN ('canceled','unavailble')
+WHERE order_status NOT IN ('canceled','unavailable')
 GROUP BY 1
 ),
 bucketed_deliveries AS (
@@ -116,3 +116,23 @@ ORDER BY
         WHEN '20<' THEN 6
         ELSE 7
     END;
+
+-- Orders Per Customer --
+WITH customer_monthly_orders AS (
+    SELECT 
+        DATE(o.order_purchase_timestamp, 'start of month') AS purchase_month,
+        oc.customer_unique_id,
+        COUNT(DISTINCT o.order_id) AS total_orders
+    FROM olist_orders_dataset o
+    JOIN olist_customers_dataset oc ON o.customer_id = oc.customer_id
+    WHERE o.order_status NOT IN ('canceled', 'unavailable')
+    GROUP BY 1, 2
+)
+SELECT 
+    purchase_month,
+    COUNT(DISTINCT customer_unique_id) AS active_customers,
+    SUM(total_orders) AS total_orders,
+    ROUND(AVG(total_orders), 2) AS monthly_orders_per_customer
+FROM customer_monthly_orders
+GROUP BY 1
+ORDER BY 1 ASC;
