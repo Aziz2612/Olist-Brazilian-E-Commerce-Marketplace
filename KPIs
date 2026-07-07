@@ -229,7 +229,8 @@ SELECT
 order_month month,
 COUNT(customer_unique_id) AS total_active_customers,
 COUNT(CASE WHEN customer_type = 'New' THEN 1 END) AS new_customers,
-COUNT(CASE WHEN customer_type = 'Returning' THEN 1 END) AS returning_customers
+COUNT(CASE WHEN customer_type = 'Returning' THEN 1 END) AS returning_customers,
+ROUND(100.0 * COUNT(CASE WHEN customer_type='Returning' THEN 1 END) /COUNT(*) ,2) AS returning_pct
 FROM classified_orders 
 GROUP BY 1 
 ORDER BY 1;
