@@ -203,3 +203,33 @@ JOIN cohort_size cs
 ON cb.cohort_month = cs.cohort_month
 GROUP BY 1,2
 ORDER BY 1;
+
+-- Customer Analysis New VS Returning --
+WITH customer_orders AS (
+SELECT c.customer_unique_id , o.order_id , o.order_purchase_timestamp , strftime('%Y-%m', o.order_purchase_timestamp) AS order_month
+FROM olist_orders_dataset o 
+JOIN olist_customers_dataset c ON c.customer_id = o.customer_id 
+WHERE o.order_status NOT IN ('canceled','unavailable')
+),
+
+customer_first_purchase AS (
+SELECT customer_unique_id, MIN(order_month) first_purchase_month
+FROM customer_orders 
+GROUP BY 1 
+),
+
+classified_orders AS (
+SELECT DISTINCT co.order_month, co.customer_unique_id, 
+CASE WHEN co.ordeR_month = f.first_purchase_month THEN 'New'
+ELSE 'Returning' END AS customer_type 
+FROM customer_orders co JOIN customer_first_purchase f ON co.customer_unique_id = f.customer_unique_id
+)
+
+SELECT 
+order_month month,
+COUNT(customer_unique_id) AS total_active_customers,
+COUNT(CASE WHEN customer_type = 'New' THEN 1 END) AS new_customers,
+COUNT(CASE WHEN customer_type = 'Returning' THEN 1 END) AS returning_customers
+FROM classified_orders 
+GROUP BY 1 
+ORDER BY 1;
