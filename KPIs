@@ -258,3 +258,13 @@ FROM olist_orders_dataset o
 JOIN olist_order_items_dataset oi ON o.order_id = oi.order_id 
 WHERE o.order_status NOT IN ('unavailable' , 'canceled')
 GROUP BY 1;
+
+
+-- GMV & orders Per Seller -- 
+
+SELECT oi.seller_id , SUM(oi.price + oi.freight_value), COUNT(DISTINCT oi.order_id)
+FROM olist_order_items_dataset oi
+JOIN olist_orders_dataset o ON oi.order_id = o.order_id 
+WHERE o.order_status NOT IN ('canceled' , 'unavailable')
+GROUP BY 1
+ORDER BY 2 DESC;
