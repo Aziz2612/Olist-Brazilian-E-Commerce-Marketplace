@@ -300,3 +300,40 @@ SELECT
 FROM seller_metrics sm
 CROSS JOIN total_gmv tg
 ORDER BY 5 DESC;
+
+
+-- Seller Overall Performance --
+WITH seller_performance AS (
+    SELECT 
+        oi.seller_id,
+        SUM(oi.price + oi.freight_value) AS total_revenue
+    FROM olist_order_items_dataset oi
+    JOIN olist_orders_dataset o ON oi.order_id = o.order_id 
+    WHERE o.order_status NOT IN ('canceled', 'unavailable')
+    GROUP BY 1
+),
+median_calculation AS (
+    SELECT total_revenue
+    FROM seller_performance
+    ORDER BY total_revenue
+    LIMIT 2 - (SELECT COUNT(*) FROM seller_performance) % 2
+    OFFSET (SELECT COUNT(*) - 1 FROM seller_performance) / 2
+),
+final_metrics AS (
+    SELECT 
+        COUNT(*) AS total_sellers,
+        AVG(total_revenue) AS avg_revenue,
+        (SELECT AVG(total_revenue) FROM median_calculation) AS median_revenue,
+        MAX(total_revenue) AS max_revenue,
+        MIN(total_revenue) AS min_revenue
+    FROM seller_performance
+)
+SELECT 'Total Sellers' AS Metric, PRINTF('%,d', total_sellers) AS Value FROM final_metrics
+UNION ALL
+SELECT 'Average Revenue per Seller', PRINTF('$%,.2f', avg_revenue) FROM final_metrics
+UNION ALL
+SELECT 'Median Revenue per Seller', PRINTF('$%,.2f', median_revenue) FROM final_metrics
+UNION ALL
+SELECT 'Max Revenue', PRINTF('$%,.2f', max_revenue) FROM final_metrics
+UNION ALL
+SELECT 'Min Revenue', PRINTF('$%,.2f', min_revenue) FROM final_metrics;
