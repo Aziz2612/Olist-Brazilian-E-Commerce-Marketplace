@@ -270,7 +270,13 @@ GROUP BY 1
 ORDER BY 2 DESC;
 
 -- Seller Segmentation -- 
-WITH seller_metrics AS (
+WITH total_gmv AS (
+SELECT SUM(oi.price + oi.freight_value) AS rev 
+FROM olist_order_items_dataset oi 
+JOIN olist_orders_dataset o ON o.order_id = oi.order_id 
+WHERE o.order_status NOT IN ('unavailable','canceled')
+),
+seller_metrics AS (
     SELECT 
         oi.seller_id,
         SUM(oi.price + oi.freight_value) AS total_revenue,
@@ -282,13 +288,15 @@ WITH seller_metrics AS (
     GROUP BY 1
 )
 SELECT 
-    seller_id,
-    total_revenue,
-    total_orders,
+    sm.seller_id,
+    sm.total_revenue,
+    sm.total_orders,
     CASE 
-        WHEN rev_percentile <= 0.10 THEN 'Tier 1 - Elite (Top 10%)'
-        WHEN rev_percentile <= 0.40 THEN 'Tier 2 - Mid-Tier (Next 30%)'
+        WHEN sm.rev_percentile <= 0.10 THEN 'Tier 1 - Elite (Top 10%)'
+        WHEN sm.rev_percentile <= 0.40 THEN 'Tier 2 - Mid-Tier (Next 30%)'
         ELSE 'Tier 3 - Low-Volume (Bottom 60%)'
-    END AS seller_segment
-FROM seller_metrics
-ORDER BY total_revenue DESC;
+    END AS seller_segment,
+	(sm.total_revenue * 100.00)/ tg.rev AS pct_of_total_gmv
+FROM seller_metrics sm
+CROSS JOIN total_gmv tg
+ORDER BY 5 DESC;
