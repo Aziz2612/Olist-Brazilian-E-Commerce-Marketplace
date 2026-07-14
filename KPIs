@@ -440,6 +440,8 @@ SELECT
     m.AOV,
 	ROUND((m.GMV / SUM(m.GMV) OVER()) * 100, 2) AS gmv_contribution_pct,
     m.unique_sellers,
+    ROUND(m.GMV / m.unique_sellers, 2) AS GMV_per_seller,
+	ROUND(m.orders / m.unique_sellers, 2) AS orders_per_sellers,
     ROUND(AVG(rev.review_score), 2) AS avg_score,
     ROUND(AVG(del.delivery_days), 1) AS avg_delivery_days
 
@@ -449,3 +451,4 @@ LEFT JOIN CategoryDelivery del ON m.product_category_name = del.product_category
 AND rev.order_id = del.order_id 
 GROUP BY 1
 ORDER BY m.orders DESC;
+
