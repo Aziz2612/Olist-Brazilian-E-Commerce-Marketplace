@@ -445,3 +445,23 @@ LEFT JOIN CategoryDelivery del ON m.product_category_name = del.product_category
 AND rev.order_id = del.order_id -- Keeps alignment exact
 GROUP BY 1
 ORDER BY m.orders DESC;
+
+-- Category Revenue Contribution --
+WITH CategoryRevenue AS (
+    SELECT 
+        op.product_category_name,
+        COUNT(DISTINCT oi.order_id) AS total_orders,
+        SUM(oi.price + oi.freight_value) AS category_revenue
+    FROM olist_order_items_dataset oi
+    JOIN olist_products_dataset op ON oi.product_id = op.product_id
+    JOIN olist_orders_dataset o ON o.order_id = oi.order_id
+    WHERE o.order_status NOT IN ('canceled', 'unavailable')
+    GROUP BY 1
+)
+SELECT 
+    product_category_name,
+    total_orders,
+    ROUND(category_revenue, 2) AS category_revenue,
+    ROUND((category_revenue / SUM(category_revenue) OVER()) * 100, 2) AS revenue_contribution_pct
+FROM CategoryRevenue
+ORDER BY category_revenue DESC;
