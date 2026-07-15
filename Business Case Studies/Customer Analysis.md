@@ -1,105 +1,106 @@
 # Customer Analysis
 
-## Business Questions
+## Objective
 
-This analysis aims to answer the following business questions:
-
-- How many customers are new versus returning?
-- Does the marketplace retain customers over time?
-- How frequently do customers place repeat orders?
-- Is business growth driven by acquisition or retention?
+Analyze customer acquisition, retention, and purchasing behavior to evaluate customer loyalty and identify opportunities to improve customer lifetime value.
 
 ---
 
-## KPIs
+# 1. Customer Growth
 
-- Active Customers
+### KPIs
+- Monthly Active Customers
 - New Customers
 - Returning Customers
-- Monthly Orders per Customer
-- Cohort Retention
-- Repeat Purchase Behavior
+
+### Key Insights
+
+- The number of active customers increased steadily throughout 2017 and the first half of 2018, indicating healthy marketplace growth.
+- Monthly activity was overwhelmingly driven by newly acquired customers.
+- Returning customers accounted for only a very small share of monthly active customers.
+- The business depends primarily on customer acquisition rather than customer retention.
+
+### Business Recommendations
+
+- Continue investing in customer acquisition while increasing focus on retention initiatives.
+- Track Returning Customer Rate as a core monthly KPI.
+- Launch post-purchase marketing campaigns to encourage second purchases.
 
 ---
 
-# Key Findings
+# 2. Customer Retention (Cohort Analysis)
 
-## Insight 1 — Business Growth Is Primarily Driven by New Customer Acquisition
+### KPI
+- Monthly Cohort Retention Rate
 
-The marketplace experienced continuous growth in active customers throughout the analyzed period.
+### Key Insights
 
-However, the majority of monthly active customers were first-time buyers, while returning customers represented a much smaller share.
+- Every customer cohort experiences a sharp decline after the first purchase.
+- Only a small percentage of customers return in subsequent months.
+- No cohort demonstrates strong long-term retention.
+- Customer loyalty remains consistently low regardless of acquisition month.
 
-### Business Impact
+### Business Recommendations
 
-The business has built an effective customer acquisition engine, but long-term growth cannot rely solely on continuously attracting new customers.
-
----
-
-## Insight 2 — Customer Retention Drops Significantly After the First Purchase
-
-The cohort analysis revealed that customer retention decreases sharply after the initial purchase month.
-
-Only a relatively small percentage of customers returned to place additional orders in subsequent months.
-
-### Business Impact
-
-Customer churn is high, limiting Customer Lifetime Value (CLV) and increasing dependence on marketing spend to sustain growth.
+- Introduce loyalty and rewards programs.
+- Offer personalized product recommendations after each purchase.
+- Send follow-up emails and promotional offers to inactive customers.
+- Improve customer engagement during the first 30 days after purchase.
 
 ---
 
-## Insight 3 — Customers Typically Place Only One Order Per Month
+# 3. Customer Lifetime Distribution
 
-Monthly Orders per Customer remained close to one order across nearly all months.
+### KPI
+Lifetime Orders per Customer
 
-This indicates that most active customers purchased only once during a given month.
+| Lifetime Orders | Customers |
+|---------------:|----------:|
+| 1 | 92,102 |
+| 2 | 2,652 |
+| 3 | 188 |
+| 4 | 29 |
+| 5 | 9 |
+| 6 | 5 |
+| 7 | 3 |
+| 9 | 1 |
+| 16 | 1 |
 
-### Business Impact
+### Key Insights
 
-Customers are not developing frequent purchasing habits, suggesting opportunities to increase purchase frequency through retention initiatives.
+- Approximately **96.9% of customers placed only one order** during their lifetime.
+- Only **3.1% of customers** made two or more purchases.
+- Customers with more than three lifetime purchases are extremely rare.
+- The marketplace has very limited customer loyalty and low customer lifetime value.
+- Revenue growth depends heavily on continuously acquiring new customers instead of maximizing existing customer value.
 
----
+### Business Recommendations
 
-## Insight 4 — Repeat Purchasing Represents an Untapped Growth Opportunity
-
-Although the marketplace successfully attracts new customers, repeat purchasing remains relatively limited.
-
-Increasing the percentage of returning customers would likely generate additional revenue without proportionally increasing customer acquisition costs.
-
-### Business Impact
-
-Improving customer retention is likely to be more cost-effective than relying exclusively on acquiring new customers.
-
----
-
-# Business Recommendations
-
-### 1. Launch Customer Retention Programs
-
-Introduce loyalty programs, reward points, and exclusive offers for existing customers.
-
----
-
-### 2. Improve Post-Purchase Engagement
-
-Use email marketing, personalized recommendations, and remarketing campaigns to encourage repeat purchases.
+- Launch a loyalty program that rewards repeat purchases.
+- Offer second-purchase coupons immediately after checkout.
+- Implement automated CRM campaigns targeting customers who have not returned within 30–60 days.
+- Recommend complementary products based on previous purchases.
+- Monitor Repeat Purchase Rate and Customer Lifetime Value as strategic business KPIs.
 
 ---
 
-### 3. Increase Purchase Frequency
+# Overall Customer Insights
 
-Promote complementary products, bundles, and subscription-based offers where applicable.
+## Strengths
+
+- Strong and consistent customer acquisition.
+- Healthy month-over-month customer growth.
+- Continuous expansion of the customer base.
+
+## Weaknesses
+
+- Extremely low customer retention.
+- Very low repeat purchase behavior.
+- Heavy dependence on first-time buyers.
+- Low customer lifetime value (CLV).
 
 ---
 
-### 4. Monitor Retention KPIs
+# Final Business Conclusion
 
-Track cohort retention, repeat purchase rate, and returning customer percentage as core business metrics alongside revenue growth.
-
----
-
-## Conclusion
-
-The marketplace demonstrates strong customer acquisition capabilities but relatively weak customer retention.
-
-Future revenue growth can be accelerated by increasing customer lifetime value through improved retention and repeat purchasing strategies rather than relying primarily on acquiring new customers.
+Olist demonstrates strong customer acquisition capabilities, consistently attracting thousands of new customers every month. However, customer retention remains the marketplace's biggest challenge. Nearly **97% of customers purchase only once**, indicating that long-term customer loyalty is very limited. Improving retention, increasing repeat purchases, and extending customer lifetime value represent the largest opportunities for sustainable revenue growth while reducing dependence on costly customer acquisition.
