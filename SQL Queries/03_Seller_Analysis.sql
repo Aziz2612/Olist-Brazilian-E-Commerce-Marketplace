@@ -1,3 +1,10 @@
+-- Unique Active Sellers --
+SELECT COUNT(DISTINCT oi.seller_id) AS total_unique_sellers
+FROM olist_order_items_dataset oi
+JOIN olist_orders_dataset o ON oi.order_id = o.order_id
+WHERE o.order_status NOT IN ('canceled', 'unavailable');
+
+
 -- Monthly Active Sellers --
 SELECT 
 strftime('%Y-%m', o.order_purchase_timestamp) AS order_month,
