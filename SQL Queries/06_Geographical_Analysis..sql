@@ -13,7 +13,6 @@ SELECT
 FROM olist_order_items_dataset oi 
 JOIN olist_orders_dataset o ON o.order_id = oi.order_id
 JOIN olist_customers_dataset c ON o.customer_id = c.customer_id
--- ربط الجدول بآخر تقييم فقط لكل أوردر لمنع التكرار
 LEFT JOIN (
     SELECT order_id, review_score
     FROM olist_order_reviews_dataset
