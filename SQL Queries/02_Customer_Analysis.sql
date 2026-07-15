@@ -112,3 +112,25 @@ SELECT
 orders, COUNT(customer_unique_id)
 FROM customer_orders
 GROUP BY 1;
+
+
+-- Monthly Orders Per Customer --
+
+WITH customer_monthly_orders AS (
+    SELECT 
+        DATE(o.order_purchase_timestamp, 'start of month') AS purchase_month,
+        oc.customer_unique_id,
+        COUNT(DISTINCT o.order_id) AS total_orders
+    FROM olist_orders_dataset o
+    JOIN olist_customers_dataset oc ON o.customer_id = oc.customer_id
+    WHERE o.order_status NOT IN ('canceled', 'unavailable')
+    GROUP BY 1, 2
+)
+SELECT 
+    purchase_month,
+    COUNT(DISTINCT customer_unique_id) AS active_customers,
+    SUM(total_orders) AS total_orders,
+    ROUND(AVG(total_orders), 2) AS monthly_orders_per_customer
+FROM customer_monthly_orders
+GROUP BY 1
+ORDER BY 1 ASC;
