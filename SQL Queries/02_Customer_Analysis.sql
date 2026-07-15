@@ -1,0 +1,114 @@
+-- Cohort Analysis --
+
+WITH customer_first_purchase AS (
+SELECT
+c.customer_unique_id,
+DATE(MIN(o.order_purchase_timestamp), 'start of month') AS cohort_month
+FROM olist_orders_dataset o
+JOIN olist_customers_dataset c
+ON o.customer_id = c.customer_id
+WHERE o.order_status NOT IN ('canceled','unavailable')
+GROUP BY 1
+),
+
+customer_activities AS (
+SELECT DISTINCT
+c.customer_unique_id,
+DATE(o.order_purchase_timestamp,'start of month') AS activity_month
+FROM olist_orders_dataset o
+JOIN olist_customers_dataset c
+ON o.customer_id = c.customer_id
+WHERE o.order_status NOT IN ('canceled','unavailable')
+),
+
+cohort_base AS (
+SELECT
+fp.cohort_month,
+((CAST(strftime('%Y',ca.activity_month) AS INTEGER)
+- CAST(strftime('%Y',fp.cohort_month) AS INTEGER)) * 12
++(CAST(strftime('%m',ca.activity_month) AS INTEGER)
+ - CAST(strftime('%m',fp.cohort_month) AS INTEGER))
+) AS month_number,
+COUNT(DISTINCT ca.customer_unique_id) active_customers
+FROM customer_first_purchase fp
+JOIN customer_activities ca
+ON fp.customer_unique_id = ca.customer_unique_id
+GROUP BY 1,2
+),
+
+cohort_size AS (
+SELECT
+cohort_month,
+COUNT(*) cohort_size
+FROM customer_first_purchase
+GROUP BY 1
+)
+SELECT
+cb.cohort_month,
+cs.cohort_size,
+ROUND(100.0 * SUM(CASE WHEN month_number = 0 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M0,
+ROUND(100.0 * SUM(CASE WHEN month_number = 1 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M1,
+ROUND(100.0 * SUM(CASE WHEN month_number = 2 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M2,
+ROUND(100.0 * SUM(CASE WHEN month_number = 3 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M3,
+ROUND(100.0 * SUM(CASE WHEN month_number = 4 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M4,
+ROUND(100.0 * SUM(CASE WHEN month_number = 5 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M5,
+ROUND(100.0 * SUM(CASE WHEN month_number = 6 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M6,
+ROUND(100.0 * SUM(CASE WHEN month_number = 7 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M7,
+ROUND(100.0 * SUM(CASE WHEN month_number = 8 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M8,
+ROUND(100.0 * SUM(CASE WHEN month_number = 9 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M9,
+ROUND(100.0 * SUM(CASE WHEN month_number = 10 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M10,
+ROUND(100.0 * SUM(CASE WHEN month_number = 11 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M11,
+ROUND(100.0 * SUM(CASE WHEN month_number = 12 THEN active_customers ELSE 0 END)/cs.cohort_size,2) AS M12
+FROM cohort_base cb
+JOIN cohort_size cs
+ON cb.cohort_month = cs.cohort_month
+GROUP BY 1,2
+ORDER BY 1;
+
+
+-- Customer Analysis New VS Returning --
+
+WITH customer_orders AS (
+SELECT c.customer_unique_id , o.order_id , o.order_purchase_timestamp , strftime('%Y-%m', o.order_purchase_timestamp) AS order_month
+FROM olist_orders_dataset o 
+JOIN olist_customers_dataset c ON c.customer_id = o.customer_id 
+WHERE o.order_status NOT IN ('canceled','unavailable')
+),
+
+customer_first_purchase AS (
+SELECT customer_unique_id, MIN(order_month) first_purchase_month
+FROM customer_orders 
+GROUP BY 1 
+),
+
+classified_orders AS (
+SELECT DISTINCT co.order_month, co.customer_unique_id, 
+CASE WHEN co.ordeR_month = f.first_purchase_month THEN 'New'
+ELSE 'Returning' END AS customer_type 
+FROM customer_orders co JOIN customer_first_purchase f ON co.customer_unique_id = f.customer_unique_id
+)
+
+SELECT 
+order_month month,
+COUNT(customer_unique_id) AS total_active_customers,
+COUNT(CASE WHEN customer_type = 'New' THEN 1 END) AS new_customers,
+COUNT(CASE WHEN customer_type = 'Returning' THEN 1 END) AS returning_customers,
+ROUND(100.0 * COUNT(CASE WHEN customer_type='Returning' THEN 1 END) /COUNT(*) ,2) AS returning_pct
+FROM classified_orders 
+GROUP BY 1 
+ORDER BY 1;
+
+
+-- Customer Lifetime Distribution -- 
+WITH customer_orders AS (
+SELECT c.customer_unique_id , COUNT(DISTINCT o.order_id) orders
+FROM olist_orders_dataset o 
+JOIN olist_customers_dataset c ON c.customer_id = o.customer_id 
+WHERE o.order_status NOT IN ('canceled','unavailable')
+GROUP BY 1
+)
+
+SELECT 
+orders, COUNT(customer_unique_id)
+FROM customer_orders
+GROUP BY 1;
