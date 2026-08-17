@@ -33,7 +33,9 @@ seller_metrics AS (
     JOIN olist_orders_dataset o ON oi.order_id = o.order_id 
     WHERE o.order_status NOT IN ('canceled', 'unavailable')
     GROUP BY 1
-)
+),
+
+Segment AS (
 SELECT 
     sm.seller_id,
     sm.total_revenue,
@@ -43,10 +45,20 @@ SELECT
         WHEN sm.rev_percentile <= 0.40 THEN 'Tier 2 - Mid-Tier (Next 30%)'
         ELSE 'Tier 3 - Low-Volume (Bottom 60%)'
     END AS seller_segment,
-	ROUND((sm.total_revenue * 100.00)/ tg.rev ,2) AS pct_of_total_gmv
+	(sm.total_revenue * 100.00)/ tg.rev AS pct_of_total_gmv
 FROM seller_metrics sm
 CROSS JOIN total_gmv tg
-ORDER BY 5 DESC;
+ORDER BY 5 DESC
+)
+
+SELECT seller_segment,
+ROUND(SUM(pct_of_total_gmv),2) pct_of_total_gmv,
+SUM(total_revenue) AS Rev,
+SUM (total_orders) AS orders,
+COUNT(seller_id) AS sellers
+FROM segment 
+GROUP BY 1
+ORDER BY 2 DESC;
 
 
 -- Seller Overall Performance --
