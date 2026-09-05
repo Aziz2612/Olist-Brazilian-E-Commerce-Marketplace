@@ -68,6 +68,20 @@ The dataset includes information about:
 
 ---
 
+## 🧹 Data Quality & Analytical Methodology
+
+Several data quality considerations were addressed during the analysis:
+
+- `customer_unique_id` was used to identify unique customers, since a customer may have multiple `customer_id` records.
+- Payment data was pre-aggregated at order level to prevent revenue duplication caused by multiple payment records per order.
+- Reviews were deduplicated at order level by selecting the latest review using a SQL window function.
+- Cancelled and unavailable orders were excluded from marketplace performance and revenue calculations.
+- `order_items` was treated at item level, since an order can contain multiple products and sellers.
+- Cohort analysis was based on the customer's first purchase month.
+- Delivery metrics were calculated using orders with available delivery timestamps.
+
+---
+
 ## 🛠 Tools & Technologies
 
 - **SQL**
