@@ -89,12 +89,12 @@ The dataset includes information about:
 
 The SQL analysis was transformed into an interactive **Power BI dashboard** covering six analytical areas:
 
-1. 01. Executive Overview
-2. 02. Sellers' Performance
-3. 03. Product Category Performance
-4. 04. Geographical Performance
-5. 05. Customer Performance
-6. 06. Operational Performance
+01. Executive Overview
+02. Sellers' Performance
+03. Product Category Performance
+04. Geographical Performance
+05. Customer Performance
+06. Operational Performance
 
 ---
 
