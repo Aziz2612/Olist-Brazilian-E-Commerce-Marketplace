@@ -33,21 +33,6 @@ The main objectives of this analysis are to:
 
 ---
 
-## ❓ Key Business Questions
-
-This analysis was designed to answer the following business questions:
-
-- How is marketplace revenue growing over time?
-- Which sellers contribute the most to marketplace GMV?
-- How concentrated is revenue across sellers?
-- Which product categories have the strongest revenue and AOV?
-- Which geographic markets generate the highest GMV?
-- What percentage of customers make repeat purchases?
-- How does delivery time relate to customer satisfaction?
-- Which operational areas represent the biggest improvement opportunities?
-
----
-
 ## 🗂 Dataset
 
 The project uses the **Olist Brazilian E-Commerce Public Dataset**, a real-world marketplace dataset containing approximately 100K orders from the Brazilian e-commerce platform Olist.
