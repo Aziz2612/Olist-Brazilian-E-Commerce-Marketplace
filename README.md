@@ -102,7 +102,7 @@ The SQL analysis was transformed into an interactive **Power BI dashboard** cove
 
 The Executive Overview provides a high-level view of marketplace performance, including GMV, orders, customers, sellers, AOV, delivery time, and customer review trends.
 
-![Executive Overview](Dashboard%20Screenshots/01._Executive_Overview.png)
+![Executive Overview](Dashboard%20Screenshots/01.%20Executive%20Overview.png)
 
 ---
 
