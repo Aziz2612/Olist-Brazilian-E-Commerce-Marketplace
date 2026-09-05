@@ -77,7 +77,7 @@ The dataset includes information about:
 | Total Orders | **~98K** |
 | Total Customers | **~95K** |
 | Total Sellers | **3,053** |
-| Average Order Value | **~$160** |
+| Average Order Value | **~$160.24** |
 | Average Delivery Time | **~12.5 Days** |
 | Average Review Score | **~4.12 / 5** |
 
