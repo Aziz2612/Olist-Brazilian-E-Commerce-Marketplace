@@ -110,7 +110,7 @@ The Executive Overview provides a high-level view of marketplace performance, in
 
 This page analyzes seller revenue, seller segmentation, revenue concentration, seller productivity, and the distribution of marketplace GMV across sellers.
 
-![Seller Performance](Dashboard%20Screenshots/02_Seller_Performance.png)
+![Seller Performance](Dashboard%20Screenshots/02.%20Seller%20Performance.png)
 
 ---
 
@@ -118,7 +118,7 @@ This page analyzes seller revenue, seller segmentation, revenue concentration, s
 
 This page evaluates product categories based on GMV, orders, AOV, seller competition, customer reviews, and delivery performance.
 
-![Product Category Performance](Dashboard%20Screenshots/03_Product_Category_Performance.png)
+![Product Category Performance](Dashboard%20Screenshots/03%20Product%20Category%20Performance.png)
 
 ---
 
@@ -126,7 +126,7 @@ This page evaluates product categories based on GMV, orders, AOV, seller competi
 
 This page analyzes marketplace performance across Brazilian states and cities, including GMV, orders, customers, sellers, AOV, delivery time, and customer satisfaction.
 
-![Geographical Performance](Dashboard%20Screenshots/04_Geographical_Performance.png)
+![Geographical Performance](Dashboard%20Screenshots/04.%20Geographical%20Performance.png)
 
 ---
 
@@ -134,7 +134,7 @@ This page analyzes marketplace performance across Brazilian states and cities, i
 
 This page focuses on customer acquisition, new vs returning customers, purchase frequency, repeat purchasing, and cohort retention.
 
-![Customer Performance](Dashboard%20Screenshots/05_Customer_Performance.png)
+![Customer Performance](Dashboard%20Screenshots/05.%20Customer%20Performance.png)
 
 ---
 
@@ -142,7 +142,7 @@ This page focuses on customer acquisition, new vs returning customers, purchase 
 
 This page analyzes delivery performance and its relationship with customer satisfaction, highlighting slow delivery segments and operational opportunities.
 
-![Operational & Customer Experience](Dashboard%20Screenshots/06_Operational_Customer_Experience.png)
+![Operational & Customer Experience](Dashboard%20Screenshots/06.%20Operational%20Customer%20Experience.png)
 
 ---
 
