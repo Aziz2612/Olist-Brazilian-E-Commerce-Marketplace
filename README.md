@@ -78,8 +78,8 @@ The dataset includes information about:
 | Total Customers | **~95K** |
 | Total Sellers | **3,053** |
 | Average Order Value | **~$160** |
-| Average Delivery Time | **~12 Days** |
-| Average Review Score | **~4.0 / 5** |
+| Average Delivery Time | **~12.5 Days** |
+| Average Review Score | **~4.12 / 5** |
 
 > KPIs are calculated using non-cancelled and non-unavailable orders, with order-level payment aggregation to avoid duplication.
 
