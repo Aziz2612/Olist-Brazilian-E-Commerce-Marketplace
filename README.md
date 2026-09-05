@@ -110,7 +110,7 @@ The Executive Overview provides a high-level view of marketplace performance, in
 
 This page analyzes seller revenue, seller segmentation, revenue concentration, seller productivity, and the distribution of marketplace GMV across sellers.
 
-![Seller Performance](Dashboard%20Screenshots/02.%20Seller%20Performance.png)
+![Seller Performance](Dashboard%20Screenshots/02.%20Sellers'%20Performance.png)
 
 ---
 
